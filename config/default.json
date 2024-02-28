@@ -1,0 +1,6 @@
+{
+    "jwtPrivateKey": "project_private_key",
+    "mongoDB": "mongodb://127.0.0.1:27021/Grocery?directConnection=true",
+    "AccessTokenTime": 30,
+    "PhotoPath": "http://127.0.0.1/public/"
+}
