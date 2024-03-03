@@ -4,6 +4,8 @@ const cors = require("cors");
 const error = require("../middleware/error");
 const auth = require("../routes/auth");
 const User = require("../routes/User");
+const Category = require("../routes/Category");
+const Product = require("../routes/Product");
 
 module.exports = function (app) {
   app.use(cors());
@@ -18,6 +20,8 @@ module.exports = function (app) {
   });
   app.use("/api/auth", auth);
   app.use("/api/v1/User", User);
+  app.use("/api/v1/Category", Category);
+  app.use("/api/v1/Product", Product);
 
   app.get('/', function (req, res) {
     res.render("login");

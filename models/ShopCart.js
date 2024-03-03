@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const winston = require("winston");
 
 const ShopCart = new mongoose.Schema({
-    orderId: { type: String, required: true, trim: true, default: null },
-    userid: { type: mongoose.Schema.ObjectId, ref: "ShopUsers" },
+    order_id: { type: String, required: true, trim: true, default: null },
+    user_id: { type: mongoose.Schema.ObjectId, ref: "ShopUsers" },
     products: [{ type: mongoose.Schema.ObjectId, ref: "ShopProduct" }],
     total_price: { type: Number, required: true, trim: true, default: 0 },
     payment_status: { type: Boolean, default: false },

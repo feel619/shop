@@ -3,8 +3,6 @@ const router = express.Router();
 const _ = require("lodash");
 const Joi = require("joi");
 const winston = require("winston");
-const User = require('../controllers/User');
-const schedule = require('node-schedule');
 const moment = require('moment-timezone');
 moment.tz.setDefault("Asia/Kolkata");
 const config = require("config");
