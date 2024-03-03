@@ -41,7 +41,7 @@ router.get("/getAll", async (req, res) => {
   return res.status(500).send({ "status": false, "message": "No Record Found!" });
 });
 
-router.get("/getAll", async (req, res) => {
+router.get("/getAllby", async (req, res) => {
   let msgObj = { is_active: true };
   const response = await ShopProduct.find(msgObj);
   if (response) {

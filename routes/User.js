@@ -10,13 +10,13 @@ const jwt = require("jsonwebtoken");
 const { ShopUsers } = require('../models/ShopUsers');
 require('dotenv').config();
 
-function validateRegister(users) {
-  winston.log("info", ` Customer validateRegister  ${JSON.stringify(users)}  `);
+function RegisterValidate(users) {
+  winston.log("info", ` Customer RegisterValidate  ${JSON.stringify(users)}  `);
   const schema = Joi.object({
-    name: Joi.string().required(),
     email: Joi.string().email(),
-    phone: Joi.number().required(),
+    name: Joi.string().required(),
     password: Joi.string().required(),
+    phone: Joi.number().required(),
   });
   return schema.validate(users);
 }
@@ -24,21 +24,24 @@ function validateRegister(users) {
 //update Org Location list on mongodb
 router.post("/register", async (req, res) => {
   let reqBody = req?.body;
-  const { error } = validateRegister(reqBody);
+  const { error } = RegisterValidate(reqBody);
   if (error) {
     winston.log("error", `user route register ${JSON.stringify(error)}`);
     return res.status(400).send({ "status": true, "message": error.details[0].message });
   }
-  const isExist = await ShopUsers.findOne({ Email: reqBody?.email });
+  const isExist = await ShopUsers.findOne({ email: reqBody?.email });
   if (isExist) {
-    //return Promise.reject('Email address already taken')
     return res.status(409).send({ "status": true, "message": 'Email address already taken' });
   }
-  let insertReq = { Name: reqBody?.name, Email: reqBody?.email, Password: reqBody?.password, Phone: reqBody?.phone };
-  const response = await ShopUsers.create(insertReq);
-  winston.log("info", `post register route ${JSON.stringify(response)}`);
-  if (response) {
-    //res.render("login");
+  let insertReq = { name: reqBody?.name, email: reqBody?.email, password: reqBody?.password, phone: reqBody?.phone };
+  const results = await ShopUsers.create(insertReq);
+  winston.log("info", `post register route ${JSON.stringify(results)}`);
+  if (results) {
+    const token = jwt.sign({ _id: results._id }, config.get("jwtPrivateKey"));
+    let response = {
+      ...results._doc,
+      token
+    };
     return res.status(200).send({ "status": true, "message": response });
   }
   return res.status(500).send({ "status": false, "message": "No Record Found!" });

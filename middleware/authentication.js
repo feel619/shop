@@ -11,14 +11,14 @@ module.exports = async function (req, res, next) {
     try {
       if (bearerToken) {
         const decodeData = jwt.verify(bearerToken, config.get("jwtPrivateKey"));
-        let UserId = decodeData._id;
-        let UserToken = bearerToken;
-        let condition = { UserId: UserId };
-        const userDetails = await ShopUsers.findById(UserId);
+        let user_id = decodeData._id;
+        let user_token = bearerToken;
+        let condition = { user_id: user_id };
+        const userDetails = await ShopUsers.findById(user_id);
         if (userDetails) {
-          req.userId = UserId;
-          req.userToken = UserToken;
-          req.userDetails = userDetails;
+          req.user_id = user_id;
+          req.user_token = user_token;
+          req.user_details = userDetails;
           next();
           return true;
         }
